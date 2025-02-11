@@ -1,18 +1,25 @@
 import {Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-ex06',
   standalone: true,
   imports: [
-    FormsModule
-  ],
+    FormsModule,
+    CommonModule
+    ],
   templateUrl: './ex06.component.html',
+  styles: `
+  .ngInvalid{
+    border: 2px solid red;
+  }
+  `
  // styleUrl: './ex06.component.css'
 })
 export class Ex06Component {
-  celsius: number | null = null;
-  fahrenheit: number | null = null;
+  celcius: string = '';
+  fahrenheit: string = '';
 
   constructor() {
   }
@@ -21,21 +28,28 @@ export class Ex06Component {
   }
 
   clear() {
-    this.celsius = null;
-    this.fahrenheit = null;
+    this.celcius = '';
+    this.fahrenheit = '';
   }
 
-  // /^\d+.?\d*$/ Expresión regular para el input
-
-  convertToCelsius() {
-    if (this.fahrenheit != null) {
-      this.celsius = (this.fahrenheit - 32) * 5 / 9;
+  convertToCelcius() {
+    if (!isNaN(Number(this.fahrenheit))) {
+      this.celcius = (((Number(this.fahrenheit)) - 32) * 5 / 9).toString();
+    } else {
+      this.celcius = '';
     }
   }
 
   converToFahrenheit() {
-    if (this.celsius != null) {
-      this.fahrenheit = this.celsius * 9 / 5 + 32;
+    if (!isNaN(Number(this.celcius))) {
+      this.fahrenheit = ((Number(this.celcius) * 9 / 5) + 32).toString();
+    } else {
+      this.fahrenheit = '';
     }
   }
+
+  isNumber(value: any): boolean {
+    console.log(value);
+    return !isNaN(parseFloat(value));
+}
 }
